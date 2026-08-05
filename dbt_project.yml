@@ -2,12 +2,19 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dbt_mcp_hol_26'
+name: 'dbt_summit_26_mcp_server'
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'merlin-co'
+
+# dbt Cloud/Platform project metadata — enables Catalog (beta) Platform enrichment
+# and dbt CLI / Mesh project resolution in the dbt VS Code Extension
+# dbt-cloud:
+#   project-id: "123456"
+#   account-host: "ab123.us1.dbt.com"
+
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -36,7 +43,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  dbt_mcp_hol_26:
+  dbt_summit_26_mcp_server:
     staging:
       +materialized: view
     intermediate:
