@@ -29,6 +29,10 @@ models:
         description: Canonical customer home region.
         dimension:
           type: categorical
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Northern Reaches', 'Ember Coast', 'Silverwood', 'The Marshlands', 'Crystal Vale']
       - name: favored_discipline
         description: Customer favored magical discipline.
         dimension:

@@ -1,0 +1,31 @@
+version: 2
+
+exposures:
+  - name: regional_revenue_dashboard
+    label: Regional Revenue Dashboard
+    type: dashboard
+    description: >
+      Finance dashboard showing total net and gross revenue by customer home region,
+      used by the Guild of Accountants to track regional performance. Backed by
+      dim_customers (home_region) joined through fct_orders and the net_revenue /
+      gross_revenue metrics.
+    depends_on:
+      - ref('dim_customers')
+      - ref('fct_orders')
+      - metric('net_revenue')
+      - metric('gross_revenue')
+    owner:
+      name: Guild of Accountants / Finance
+
+  - name: shop_sell_through_report
+    label: Shop Sell-Through Report
+    type: application
+    description: >
+      Production-planning report joining order sell-through from fct_order_items
+      with brew volumes from fct_brew_events so the Guild of Brewers can align
+      batch production to demand.
+    depends_on:
+      - ref('fct_order_items')
+      - ref('fct_brew_events')
+    owner:
+      name: Guild of Brewers / Production
