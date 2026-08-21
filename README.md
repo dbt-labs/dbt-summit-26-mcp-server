@@ -25,4 +25,41 @@ models/
 
 ## Getting started
 
-[WIP]
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/dbt-labs/dbt-summit-26-mcp-server.git
+   cd dbt-summit-26-mcp-server
+   ```
+
+2. [Install dbt Fusion](https://docs.getdbt.com/docs/local/install-dbt?install-method=curl).
+
+3. Set up your profile. Copy the example and fill in your Snowflake credentials:
+   ```sh
+   cp profiles.yml.example ~/.dbt/profiles.yml
+   ```
+
+4. Verify your setup:
+   ```sh
+   dbt parse
+   ```
+
+5. Configure the dbt MCP server in your AI assistant. Update `.mcp.json` with your dbt platform account URL:
+   ```json
+   {
+     "mcpServers": {
+       "dbt": {
+         "type": "http",
+         "url": "https://{your-account-prefix}.{region}.dbt.com/api/ai/v1/mcp"
+       }
+     }
+   }
+   ```
+   Your account URL can be found in dbt platform under **Account settings**.
+
+## Support and maintenance
+
+This project is provided as-is for use during the dbt Summit 2026 hands-on lab.
+
+- **No SLAs.** This is a workshop resource, not a production project.
+- **Issues and PRs are not monitored.** This repo does not accept external contributions.
+- **Security concerns.** See [SECURITY.md](SECURITY.md) for how to report vulnerabilities privately.
