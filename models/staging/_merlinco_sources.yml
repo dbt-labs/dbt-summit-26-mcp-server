@@ -3,8 +3,8 @@ version: 2
 sources:
   - name: merlinco_apothecaries
     description: Raw Merlin & Co. Apothecaries operational tables.
-    database: RAW_WIZARD
-    schema: MERLINCO_APOTHECARIES
+    database: RAW
+    schema: SMARD
     tables:
       - name: RAW_CUSTOMERS
         identifier: RAW_CUSTOMERS
