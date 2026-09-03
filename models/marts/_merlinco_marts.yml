@@ -1,6 +1,13 @@
 version: 2
 
 models:
+  - name: metricflow_time_spine
+    description: A time spine with one row per day.
+    time_spine:
+      standard_granularity_column: date_day  # Column for the standard grain of your table
+    columns:
+      - name: date_day
+        granularity: day  # Set the granularity of the column
   - name: dim_customers
     description: Customer dimension at one row per customer.
     semantic_model:
