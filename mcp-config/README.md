@@ -1,12 +1,35 @@
 # Connect your MCP client to dbt
 
-## Claude Code, Cursor, and VS Code
+## Claude Code
+
+### 1. Add your dbt MCP URL
+
+In dbt platform, go to **Account settings → Access URLs → MCP Endpoint URL** and copy the URL.
+
+In `.mcp.json` at the root of this repository, replace:
+
+```text
+https://YOUR_DBT_HOST_URL/api/ai/v1/mcp/
+```
+
+with the URL you copied.
+
+### 2. Verify the connection
+
+Restart Claude Code, then run `/mcp` → Project MCPs → dbt → Authenticate to trigger browser OAuth. Then ask:
+
+```text
+What models are in my dbt project?
+```
+
+The connection is working if the assistant returns models from your dbt project.
+
+## Cursor and VS Code
 
 ### 1. Find your MCP client config
 
 | MCP client | Config |
 | --- | --- |
-| Claude Code | [`remote-oauth/.mcp.json.claude-code`](remote-oauth/.mcp.json.claude-code) |
 | Cursor | [`remote-oauth/.mcp.json.cursor`](remote-oauth/.mcp.json.cursor) |
 | VS Code | [`remote-oauth/.mcp.json-vscode`](remote-oauth/.mcp.json-vscode) |
 
