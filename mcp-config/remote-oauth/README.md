@@ -24,34 +24,76 @@ What models are in my dbt project?
 
 The connection is working if the assistant returns models from your dbt project.
 
-## Cursor and VS Code
+## Cursor
 
-### 1. Find your MCP client config
+### 1. Configure Cursor
 
-| MCP client | Config |
-| --- | --- |
-| Cursor | [`remote-oauth/.mcp.json.cursor`](remote-oauth/.mcp.json.cursor) |
-| VS Code | [`remote-oauth/.mcp.json-vscode`](remote-oauth/.mcp.json-vscode) |
+Use the project-level config at [`.cursor/mcp.json`](../.cursor/mcp.json):
 
-### 2. Copy the config
+```json
+{
+  "mcpServers": {
+    "dbt": {
+      "url": "https://YOUR_DBT_HOST_URL/api/ai/v1/mcp/"
+    }
+  }
+}
+```
 
-Copy the contents of your client's config and paste them into the `.mcp.json` file at the root of this repository.
-
-### 3. Add your dbt MCP URL
+### 2. Add your dbt MCP URL
 
 In dbt platform, go to **Account settings → Access URLs → MCP Endpoint URL** and copy the URL.
 
-In `.mcp.json`, replace:
+In `.cursor/mcp.json`, replace:
 
 ```text
 https://YOUR_DBT_HOST_URL/api/ai/v1/mcp/
 ```
 
-with the URL you copied. Save the file and sign in to dbt when prompted.
+with the URL you copied.
 
-### 4. Verify the connection
+### 3. Verify the connection
 
-Restart your MCP client and confirm that the `dbt` server is connected. Then ask:
+Restart Cursor, open **Cursor Settings → MCP**, and confirm that the `dbt` server is connected. Complete the browser OAuth flow when prompted. Then ask:
+
+```text
+What models are in my dbt project?
+```
+
+The connection is working if the assistant returns models from your dbt project.
+
+## VS Code
+
+### 1. Configure VS Code
+
+Use the workspace config at [`.vscode/mcp.json`](../.vscode/mcp.json):
+
+```json
+{
+  "servers": {
+    "dbt": {
+      "type": "http",
+      "url": "https://YOUR_DBT_HOST_URL/api/ai/v1/mcp/"
+    }
+  }
+}
+```
+
+### 2. Add your dbt MCP URL
+
+In dbt platform, go to **Account settings → Access URLs → MCP Endpoint URL** and copy the URL.
+
+In `.vscode/mcp.json`, replace:
+
+```text
+https://YOUR_DBT_HOST_URL/api/ai/v1/mcp/
+```
+
+with the URL you copied.
+
+### 3. Verify the connection
+
+Restart VS Code, run **MCP: List Servers** from the Command Palette, and confirm that the `dbt` server is connected. Complete the browser OAuth flow when prompted. Then ask:
 
 ```text
 What models are in my dbt project?
