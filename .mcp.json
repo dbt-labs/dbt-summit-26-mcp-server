@@ -1,7 +1,0 @@
-{
-  "mcpServers": {
-    "dbt": {
-      "url": "https://aj792.us1.dbt.com/api/ai/v1/mcp"
-    }
-  }
-}

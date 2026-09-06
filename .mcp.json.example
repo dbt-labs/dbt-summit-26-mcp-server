@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "dbt": {
-      "type": "http",
-      "url": "https://{your-account-prefix}.{region}.dbt.com/api/ai/v1/mcp"
-    }
-  }
-}
