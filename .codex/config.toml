@@ -1,0 +1,2 @@
+[mcp_servers.dbt]
+url = "https://YOUR_DBT_HOST_URL/api/ai/v1/mcp/"
