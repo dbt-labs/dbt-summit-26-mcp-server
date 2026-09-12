@@ -1,8 +1,8 @@
 version: 2
 
 exposures:
-  - name: regional_revenue_dashboard
-    label: Regional Revenue Dashboard
+  - name: regional_customer_revenue_dashboard
+    label: Regional Customer Revenue Dashboard
     type: dashboard
     description: >
       Finance dashboard showing total net and gross revenue by customer home region,
@@ -16,6 +16,22 @@ exposures:
       - metric('gross_revenue')
     owner:
       name: Guild of Accountants / Finance
+
+  - name: regional_store_revenue_dashboard
+    label: Regional Store Revenue Dashboard
+    type: dashboard
+    description: >
+      Finance and operations dashboard showing total net and gross revenue by shop
+      (store) region, used by the Guild of Brewers to track regional sell-through
+      performance. Backed by dim_shops (region) joined through fct_orders and the
+      net_revenue / gross_revenue metrics.
+    depends_on:
+      - ref('dim_shops')
+      - ref('fct_orders')
+      - metric('net_revenue')
+      - metric('gross_revenue')
+    owner:
+      name: Guild of Brewers / Production
 
   - name: shop_sell_through_report
     label: Shop Sell-Through Report
