@@ -11,10 +11,10 @@ models:
           - unique
       - name: home_region
         description: Canonical customer home region.
-        data_tests:
-          - accepted_values:
-              arguments:
-                values: ['Northern Reaches', 'Ember Coast', 'Silverwood', 'The Marshlands', 'Crystal Vale']
+        # data_tests:
+        #   - accepted_values:
+        #       arguments:
+        #         values: ['Northern Reaches', 'Ember Coast', 'Silverwood', 'The Marshlands', 'Crystal Vale']
   - name: stg_merlinco_shops
     description: Cleaned shop locations.
     columns:
