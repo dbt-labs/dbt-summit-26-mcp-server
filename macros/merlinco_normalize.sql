@@ -25,3 +25,11 @@
         else nullif(trim({{ column_name }}), '')
     end
 {%- endmacro %}
+
+{% macro merlinco_region_column(column_name, alias) -%}
+    {% if var('DBT_BREAK_BUILD', true) %}
+    nullif(trim({{ column_name }}), '') as {{ alias }}
+    {% else %}
+    {{ merlinco_normalize_region(column_name) }} as {{ alias }}
+    {% endif %}
+{%- endmacro %}
