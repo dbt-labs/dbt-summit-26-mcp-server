@@ -31,30 +31,10 @@ models/
    cd dbt-summit-26-mcp-server
    ```
 
-2. [Install dbt Fusion](https://docs.getdbt.com/docs/local/install-dbt?install-method=curl).
+2. For folks with — **Claude Code**, **Codex**, **Cursor**, or **VS Code** — follow the client-specific setup guide in [`mcp-config/remote-oauth/README.md`](mcp-config/remote-oauth/README.md) to connect it to the dbt MCP server. No local dbt installation or warehouse credentials are required. If you have a different agent coding harness, follow their docs for remote MCP setup.
 
-3. Set up your profile. Copy the example and fill in your Snowflake credentials:
-   ```sh
-   cp profiles.yml.example ~/.dbt/profiles.yml
-   ```
-
-4. Verify your setup:
-   ```sh
-   dbt parse
-   ```
-
-5. Configure the dbt MCP server in your AI assistant. Update `.mcp.json` with your dbt platform account URL:
-   ```json
-   {
-     "mcpServers": {
-       "dbt": {
-         "type": "http",
-         "url": "https://{your-account-prefix}.{region}.dbt.com/api/ai/v1/mcp"
-       }
-     }
-   }
-   ```
-   Your account URL can be found in dbt platform under **Account settings**.
+> [!TIP]
+> For this lab, you don't need to install dbt Fusion or set up a connection in `profiles.yml` as we will focus soley on using the remote dbt MCP. Installing dbt Fusion and configuring your `~/.dbt/profiles.yml` is optional if you want to run dbt locally, but we'll skip it for efficiency. See the [dbt Fusion install guide](https://docs.getdbt.com/docs/local/install-dbt?install-method=curl) if you'd like to set that up.
 
 ## Support and maintenance
 
