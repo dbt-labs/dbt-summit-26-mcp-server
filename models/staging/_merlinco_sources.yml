@@ -2,7 +2,11 @@ version: 2
 
 sources:
   - name: merlinco_apothecaries
-    description: Raw Merlin & Co. Apothecaries operational tables.
+    description: > 
+      Raw Merlin & Co. Apothecaries operational tables. Data comes from 3 systems:
+        - Abracadabra POS
+        - Grimoire CRM
+        - Alembic Ops
     database: RAW
     schema: MERLINCO_APOTHECARIES
     tables:
