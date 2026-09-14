@@ -41,7 +41,7 @@ models:
               arguments:
                 values: ['Northern Reaches', 'Ember Coast', 'Silverwood', 'The Marshlands', 'Crystal Vale']
               config:
-                enabled: "{{ var('DBT_RUN_REGION_TESTS', 'false') | lower == 'true' }}"      
+                enabled: "{{ var('DBT_ENABLE_REGION_DATA_TESTS', 'false') | lower == 'true' }}"      
       - name: favored_discipline
         description: Customer favored magical discipline.
         dimension:
