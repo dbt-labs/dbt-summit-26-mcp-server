@@ -27,7 +27,7 @@
 {%- endmacro %}
 
 {% macro merlinco_region_column(column_name, alias) -%}
-    {% if var('DBT_BREAK_BUILD', true) %}
+    {% if var('DBT_KEEP_RAW_REGION', true) %}
     nullif(trim({{ column_name }}), '') as {{ alias }}
     {% else %}
     {{ merlinco_normalize_region(column_name) }} as {{ alias }}
