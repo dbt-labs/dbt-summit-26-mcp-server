@@ -1,0 +1,259 @@
+version: 2
+
+models:
+  - name: int_merlinco_brew_events_enriched
+    description: One row per brew event, enriched with potion category and recipe cost estimates.
+    columns:
+      - name: brew_id
+        description: Primary brew event identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: potion_sku
+        description: Potion SKU.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_potions')
+                field: potion_sku
+      - name: shop_id
+        description: Shop identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_shops')
+                field: shop_id
+      - name: quality_check
+        description: Lowercase quality check result.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['pass', 'fail']
+      - name: potion_category
+        description: Potion category joined from the potion catalog.
+      - name: recipe_unit_cost_gold
+        description: Total ingredient cost per single unit brewed, in gold.
+      - name: estimated_batch_cost_gold
+        description: Batch size multiplied by per-unit recipe cost, in gold.
+      - name: passed_quality_check
+        description: Boolean flag indicating the brew passed quality check.
+      - name: sellable_units_brewed
+        description: Batch size when quality check passed, otherwise zero.
+
+  - name: int_merlinco_current_guild_memberships
+    description: Active guild memberships as of the current date.
+    columns:
+      - name: membership_id
+        description: Primary membership identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Customer identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_customers')
+                field: customer_id
+      - name: guild_id
+        description: Guild identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_guilds')
+                field: guild_id
+      - name: membership_tier
+        description: Lowercase membership tier.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['apprentice', 'adept', 'archmage']
+
+  - name: int_merlinco_customer_guild_memberships
+    description: All guild memberships with a boolean flag marking the currently active interval.
+    columns:
+      - name: membership_id
+        description: Primary membership identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Customer identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_customers')
+                field: customer_id
+      - name: guild_id
+        description: Guild identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_guilds')
+                field: guild_id
+      - name: membership_tier
+        description: Lowercase membership tier.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['apprentice', 'adept', 'archmage']
+      - name: is_current_membership
+        description: Boolean flag indicating the membership is active as of the current date.
+        data_tests:
+          - not_null
+
+  - name: int_merlinco_ingredients_enriched
+    description: Ingredients enriched with supplier name.
+    columns:
+      - name: ingredient_id
+        description: Primary ingredient identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: supplier_id
+        description: Supplier identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_suppliers')
+                field: supplier_id
+      - name: unit
+        description: Lowercase ingredient unit.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['pinch', 'sprig', 'bundle', 'gram', 'dram', 'vial']
+      - name: is_hazardous
+        description: Normalized hazardous boolean flag.
+        data_tests:
+          - not_null
+
+  - name: int_merlinco_order_financial_rollup
+    description: One row per order with item revenue rollup and payment attempt summaries.
+    columns:
+      - name: order_id
+        description: Primary order identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Customer identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_customers')
+                field: customer_id
+      - name: shop_id
+        description: Shop identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_shops')
+                field: shop_id
+      - name: order_status
+        description: Lowercase order status.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['completed', 'returned', 'cancelled', 'placed']
+      - name: order_channel
+        description: Lowercase order channel.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['in_store', 'courier_owl', 'marketplace']
+      - name: gross_revenue_gold
+        description: Sum of line gross revenue across all items in the order, in gold.
+      - name: discount_gold
+        description: Sum of allocated discounts across all items in the order, in gold.
+      - name: net_revenue_gold
+        description: Gross revenue minus allocated discounts, in gold.
+
+  - name: int_merlinco_order_items_enriched
+    description: One row per order item with order-level discounts proportionally allocated to each line.
+    columns:
+      - name: order_item_id
+        description: Primary order item identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: Order identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_orders')
+                field: order_id
+      - name: potion_sku
+        description: Potion SKU.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_potions')
+                field: potion_sku
+      - name: customer_id
+        description: Customer identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_customers')
+                field: customer_id
+      - name: shop_id
+        description: Shop identifier.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_shops')
+                field: shop_id
+      - name: order_status
+        description: Lowercase order status.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['completed', 'returned', 'cancelled', 'placed']
+      - name: order_channel
+        description: Lowercase order channel.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['in_store', 'courier_owl', 'marketplace']
+      - name: line_gross_gold
+        description: Quantity multiplied by unit price for the line, in gold.
+      - name: allocated_discount_gold
+        description: Order-level discount allocated to this line, in gold.
+      - name: line_net_gold
+        description: Line gross minus allocated discount, in gold.
+
+  - name: int_merlinco_payments_by_order
+    description: Payment attempts aggregated by order with success, failure, and refund breakdowns.
+    columns:
+      - name: order_id
+        description: Order identifier.
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_merlinco_orders')
+                field: order_id
+      - name: successful_payment_count
+        description: Count of successful payment attempts for the order.
+      - name: successful_payment_gold
+        description: Sum of successful payment amounts, in gold.
+
+  - name: int_merlinco_potion_recipe_costs
+    description: Per-potion recipe cost rollup including ingredient count and hazardous ingredient flag.
+    columns:
+      - name: potion_sku
+        description: Primary potion SKU.
+        data_tests:
+          - not_null
+          - unique
+      - name: recipe_ingredient_count
+        description: Number of distinct ingredients in the potion recipe.
+      - name: recipe_unit_cost_gold
+        description: Total ingredient cost per single unit brewed, in gold.
+      - name: uses_hazardous_ingredient
+        description: Boolean flag indicating the recipe includes at least one hazardous ingredient.
+        data_tests:
+          - not_null
