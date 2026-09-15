@@ -16,7 +16,7 @@ models:
               arguments:
                 values: ['Northern Reaches', 'Ember Coast', 'Silverwood', 'The Marshlands', 'Crystal Vale']
               config:
-                enabled: "{{ var('DBT_ENABLE_REGION_DATA_TESTS', 'false') | lower == 'true' }}"
+                enabled: "{{ var('DBT_BONUS_ROUND', 'false') | lower == 'true' }}"
   - name: stg_merlinco_shops
     description: Cleaned shop locations.
     columns:
