@@ -1,0 +1,166 @@
+source: analytics
+title: Orders & revenue
+
+variables:
+  order_status:
+    default: completed
+    notes: Order lifecycle status filter applied to the KPI and trend queries.
+
+queries:
+  kpis:
+    sql: |
+      select
+        sum(net_revenue_gold) as total_revenue,
+        count(*) as total_orders,
+        sum(net_revenue_gold) / count(*) as avg_order_value
+      from dbt_jmartinez.fct_orders
+      where order_status = '{{ order_status }}'
+    notes: Headline revenue, order count, and average order value for completed orders.
+
+  revenue_by_month:
+    sql: |
+      select
+        date_trunc('month', ordered_date) as month,
+        sum(net_revenue_gold) as revenue
+      from dbt_jmartinez.fct_orders
+      where order_status = '{{ order_status }}'
+      group by 1
+      order by 1
+    notes: Monthly net revenue trend for completed orders across the full order history.
+
+  revenue_by_channel:
+    sql: |
+      select
+        order_channel,
+        sum(net_revenue_gold) as revenue
+      from dbt_jmartinez.fct_orders
+      where order_status = '{{ order_status }}'
+      group by 1
+      order by revenue desc
+    notes: Net revenue split by ordering channel for completed orders.
+
+  orders_by_status:
+    sql: |
+      select
+        order_status,
+        count(*) as orders,
+        sum(net_revenue_gold) as revenue
+      from dbt_jmartinez.fct_orders
+      group by 1
+      order by orders desc
+    notes: Order count and revenue across all lifecycle statuses, unfiltered by the status variable.
+
+  top_shops:
+    sql: |
+      select
+        s.shop_name,
+        sum(o.net_revenue_gold) as revenue
+      from dbt_jmartinez.fct_orders o
+      join dbt_jmartinez.dim_shops s on o.shop_id = s.shop_id
+      where o.order_status = '{{ order_status }}'
+      group by 1
+      order by revenue desc
+      limit 10
+    notes: Top 10 shops by completed-order net revenue.
+
+  revenue_by_region:
+    sql: |
+      select
+        s.region,
+        sum(o.net_revenue_gold) as revenue
+      from dbt_jmartinez.fct_orders o
+      join dbt_jmartinez.dim_shops s on o.shop_id = s.shop_id
+      where o.order_status = '{{ order_status }}'
+      group by 1
+      order by revenue desc
+    notes: Completed-order net revenue rolled up by shop region.
+
+charts:
+  kpi_total_revenue:
+    query: kpis
+    type: kpi
+    value: total_revenue
+    label: Total net revenue
+    notes: Headline net revenue for orders at the selected status.
+    style:
+      value:
+        format: currency
+
+  kpi_total_orders:
+    query: kpis
+    type: kpi
+    value: total_orders
+    label: Total orders
+    notes: Count of orders at the selected status.
+    style:
+      value:
+        format: integer
+
+  kpi_avg_order_value:
+    query: kpis
+    type: kpi
+    value: avg_order_value
+    label: Avg order value
+    notes: Net revenue per order at the selected status.
+    style:
+      value:
+        format: currency_whole
+
+  revenue_trend:
+    query: revenue_by_month
+    type: line
+    x: month
+    y: revenue
+    title: Monthly net revenue
+    notes: Shows whether revenue is growing, flat, or seasonal month over month.
+    style:
+      number_format: currency
+
+  channel_bar:
+    query: revenue_by_channel
+    type: bar
+    x: order_channel
+    y: revenue
+    color: order_channel
+    title: Revenue by channel
+    notes: Answers which ordering channel drives the most revenue.
+    style:
+      number_format: currency
+
+  status_bar:
+    query: orders_by_status
+    type: bar
+    x: order_status
+    y: orders
+    color: order_status
+    title: Orders by status
+    notes: Shows how much order volume is completed vs. cancelled, returned, or still placed.
+    style:
+      number_format: integer
+
+  top_shops_bar:
+    query: top_shops
+    type: bar
+    x: shop_name
+    y: revenue
+    title: Top 10 shops by revenue
+    notes: Identifies the highest-revenue shops to target for follow-up analysis.
+    style:
+      number_format: currency
+
+  region_bar:
+    query: revenue_by_region
+    type: bar
+    x: region
+    y: revenue
+    color: region
+    title: Revenue by region
+    notes: Answers which region contributes the most revenue.
+    style:
+      number_format: currency
+
+rows:
+  - cols: [kpi_total_revenue, kpi_total_orders, kpi_avg_order_value]
+  - revenue_trend
+  - cols: [channel_bar, status_bar]
+  - cols: [top_shops_bar, region_bar]

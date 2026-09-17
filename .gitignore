@@ -4,3 +4,7 @@ logs/
 dbt_packages/
 .env
 dbt_internal_packages/
+renders/
+.venv/
+__pycache__/
+*.duckdb

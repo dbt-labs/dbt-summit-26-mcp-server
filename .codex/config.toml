@@ -1,2 +1,9 @@
 [mcp_servers.dbt]
 url = "https://YOUR_DBT_HOST_URL/api/ai/v1/mcp/"
+
+[mcp_servers.dbt-charts]
+command = "/Users/jairusmartinez/.local/share/uv/tools/dbt-charts/bin/dct"
+args = [
+    "mcp",
+    "serve",
+]
