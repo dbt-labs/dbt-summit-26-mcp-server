@@ -4,6 +4,8 @@ Companion dbt project for the 90-minute hands-on lab **"Creating context with th
 
 **Session page:** https://www.getdbt.com/dbt-summit/sessions/creating-context-with-dbt-mcp-server
 
+**Slides:** [Creating Context with the dbt MCP Server.pdf](./Creating%20Context%20with%20the%20dbt%20MCP%20Server.pdf)
+
 ---
 
 ## Source data
