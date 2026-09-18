@@ -1,0 +1,81 @@
+version: 2
+
+seeds:
+  - name: US_CITY_TEMPERATURES
+    description: Monthly temperatures in degrees Celsius for 35 U.S. cities from January 1948 through November 2022, with one row per month.
+    columns:
+      - name: time
+        description: Month represented by the observation, stored as the first day of the month.
+        data_tests:
+          - not_null
+          - unique
+      - name: albuquerque
+        description: Monthly temperature in degrees Celsius for Albuquerque, New Mexico.
+      - name: anchorage
+        description: Monthly temperature in degrees Celsius for Anchorage, Alaska.
+      - name: atlanta
+        description: Monthly temperature in degrees Celsius for Atlanta, Georgia.
+      - name: boise
+        description: Monthly temperature in degrees Celsius for Boise, Idaho.
+      - name: boston
+        description: Monthly temperature in degrees Celsius for Boston, Massachusetts.
+      - name: buffalo
+        description: Monthly temperature in degrees Celsius for Buffalo, New York.
+      - name: charlotte
+        description: Monthly temperature in degrees Celsius for Charlotte, North Carolina.
+      - name: chicago
+        description: Monthly temperature in degrees Celsius for Chicago, Illinois.
+      - name: dallas
+        description: Monthly temperature in degrees Celsius for Dallas, Texas.
+      - name: denver
+        description: Monthly temperature in degrees Celsius for Denver, Colorado.
+      - name: detroit
+        description: Monthly temperature in degrees Celsius for Detroit, Michigan.
+      - name: helena
+        description: Monthly temperature in degrees Celsius for Helena, Montana.
+      - name: honolulu
+        description: Monthly temperature in degrees Celsius for Honolulu, Hawaii.
+      - name: indianapolis
+        description: Monthly temperature in degrees Celsius for Indianapolis, Indiana.
+      - name: jacksonville
+        description: Monthly temperature in degrees Celsius for Jacksonville, Florida.
+      - name: kansas_city
+        description: Monthly temperature in degrees Celsius for Kansas City, Missouri.
+      - name: las_vegas
+        description: Monthly temperature in degrees Celsius for Las Vegas, Nevada.
+      - name: los_angeles
+        description: Monthly temperature in degrees Celsius for Los Angeles, California.
+      - name: memphis
+        description: Monthly temperature in degrees Celsius for Memphis, Tennessee.
+      - name: miami
+        description: Monthly temperature in degrees Celsius for Miami, Florida.
+      - name: minneapolis
+        description: Monthly temperature in degrees Celsius for Minneapolis, Minnesota.
+      - name: new_orleans
+        description: Monthly temperature in degrees Celsius for New Orleans, Louisiana.
+      - name: new_york
+        description: Monthly temperature in degrees Celsius for New York City, New York.
+      - name: oklahoma_city
+        description: Monthly temperature in degrees Celsius for Oklahoma City, Oklahoma.
+      - name: phoenix
+        description: Monthly temperature in degrees Celsius for Phoenix, Arizona.
+      - name: portland
+        description: Monthly temperature in degrees Celsius for Portland, Oregon.
+      - name: rapid_city
+        description: Monthly temperature in degrees Celsius for Rapid City, South Dakota.
+      - name: reno
+        description: Monthly temperature in degrees Celsius for Reno, Nevada.
+      - name: richmond
+        description: Monthly temperature in degrees Celsius for Richmond, Virginia.
+      - name: sacramento
+        description: Monthly temperature in degrees Celsius for Sacramento, California.
+      - name: salt_lake_city
+        description: Monthly temperature in degrees Celsius for Salt Lake City, Utah.
+      - name: san_antonio
+        description: Monthly temperature in degrees Celsius for San Antonio, Texas.
+      - name: san_francisco
+        description: Monthly temperature in degrees Celsius for San Francisco, California.
+      - name: seattle
+        description: Monthly temperature in degrees Celsius for Seattle, Washington.
+      - name: tampa
+        description: Monthly temperature in degrees Celsius for Tampa, Florida.

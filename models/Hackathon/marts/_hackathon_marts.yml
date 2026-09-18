@@ -1,0 +1,303 @@
+version: 2
+
+models:
+  - name: MRT_US_CITY_TEMPERATURES
+    description: Monthly temperature history for 35 U.S. cities, exposed for city-level climate analysis at one row per calendar month from January 1948 through November 2022. Temperature columns are measured in degrees Celsius.
+    semantic_model:
+      enabled: true
+    agg_time_dimension: time
+    derived_semantics:
+      entities:
+        - name: temperature_observation
+          type: primary
+          expr: time
+    metrics:
+      - name: average_albuquerque_temperature
+        label: Average Albuquerque Temperature
+        description: Average monthly temperature in degrees Celsius for Albuquerque, New Mexico.
+        type: simple
+        agg: average
+        expr: albuquerque
+      - name: average_anchorage_temperature
+        label: Average Anchorage Temperature
+        description: Average monthly temperature in degrees Celsius for Anchorage, Alaska.
+        type: simple
+        agg: average
+        expr: anchorage
+      - name: average_atlanta_temperature
+        label: Average Atlanta Temperature
+        description: Average monthly temperature in degrees Celsius for Atlanta, Georgia.
+        type: simple
+        agg: average
+        expr: atlanta
+      - name: average_boise_temperature
+        label: Average Boise Temperature
+        description: Average monthly temperature in degrees Celsius for Boise, Idaho.
+        type: simple
+        agg: average
+        expr: boise
+      - name: average_boston_temperature
+        label: Average Boston Temperature
+        description: Average monthly temperature in degrees Celsius for Boston, Massachusetts.
+        type: simple
+        agg: average
+        expr: boston
+      - name: average_buffalo_temperature
+        label: Average Buffalo Temperature
+        description: Average monthly temperature in degrees Celsius for Buffalo, New York.
+        type: simple
+        agg: average
+        expr: buffalo
+      - name: average_charlotte_temperature
+        label: Average Charlotte Temperature
+        description: Average monthly temperature in degrees Celsius for Charlotte, North Carolina.
+        type: simple
+        agg: average
+        expr: charlotte
+      - name: average_chicago_temperature
+        label: Average Chicago Temperature
+        description: Average monthly temperature in degrees Celsius for Chicago, Illinois.
+        type: simple
+        agg: average
+        expr: chicago
+      - name: average_dallas_temperature
+        label: Average Dallas Temperature
+        description: Average monthly temperature in degrees Celsius for Dallas, Texas.
+        type: simple
+        agg: average
+        expr: dallas
+      - name: average_denver_temperature
+        label: Average Denver Temperature
+        description: Average monthly temperature in degrees Celsius for Denver, Colorado.
+        type: simple
+        agg: average
+        expr: denver
+      - name: average_detroit_temperature
+        label: Average Detroit Temperature
+        description: Average monthly temperature in degrees Celsius for Detroit, Michigan.
+        type: simple
+        agg: average
+        expr: detroit
+      - name: average_helena_temperature
+        label: Average Helena Temperature
+        description: Average monthly temperature in degrees Celsius for Helena, Montana.
+        type: simple
+        agg: average
+        expr: helena
+      - name: average_honolulu_temperature
+        label: Average Honolulu Temperature
+        description: Average monthly temperature in degrees Celsius for Honolulu, Hawaii.
+        type: simple
+        agg: average
+        expr: honolulu
+      - name: average_indianapolis_temperature
+        label: Average Indianapolis Temperature
+        description: Average monthly temperature in degrees Celsius for Indianapolis, Indiana.
+        type: simple
+        agg: average
+        expr: indianapolis
+      - name: average_jacksonville_temperature
+        label: Average Jacksonville Temperature
+        description: Average monthly temperature in degrees Celsius for Jacksonville, Florida.
+        type: simple
+        agg: average
+        expr: jacksonville
+      - name: average_kansas_city_temperature
+        label: Average Kansas City Temperature
+        description: Average monthly temperature in degrees Celsius for Kansas City, Missouri.
+        type: simple
+        agg: average
+        expr: kansas_city
+      - name: average_las_vegas_temperature
+        label: Average Las Vegas Temperature
+        description: Average monthly temperature in degrees Celsius for Las Vegas, Nevada.
+        type: simple
+        agg: average
+        expr: las_vegas
+      - name: average_los_angeles_temperature
+        label: Average Los Angeles Temperature
+        description: Average monthly temperature in degrees Celsius for Los Angeles, California.
+        type: simple
+        agg: average
+        expr: los_angeles
+      - name: average_memphis_temperature
+        label: Average Memphis Temperature
+        description: Average monthly temperature in degrees Celsius for Memphis, Tennessee.
+        type: simple
+        agg: average
+        expr: memphis
+      - name: average_miami_temperature
+        label: Average Miami Temperature
+        description: Average monthly temperature in degrees Celsius for Miami, Florida.
+        type: simple
+        agg: average
+        expr: miami
+      - name: average_minneapolis_temperature
+        label: Average Minneapolis Temperature
+        description: Average monthly temperature in degrees Celsius for Minneapolis, Minnesota.
+        type: simple
+        agg: average
+        expr: minneapolis
+      - name: average_new_orleans_temperature
+        label: Average New Orleans Temperature
+        description: Average monthly temperature in degrees Celsius for New Orleans, Louisiana.
+        type: simple
+        agg: average
+        expr: new_orleans
+      - name: average_new_york_temperature
+        label: Average New York Temperature
+        description: Average monthly temperature in degrees Celsius for New York City, New York.
+        type: simple
+        agg: average
+        expr: new_york
+      - name: average_oklahoma_city_temperature
+        label: Average Oklahoma City Temperature
+        description: Average monthly temperature in degrees Celsius for Oklahoma City, Oklahoma.
+        type: simple
+        agg: average
+        expr: oklahoma_city
+      - name: average_phoenix_temperature
+        label: Average Phoenix Temperature
+        description: Average monthly temperature in degrees Celsius for Phoenix, Arizona.
+        type: simple
+        agg: average
+        expr: phoenix
+      - name: average_portland_temperature
+        label: Average Portland Temperature
+        description: Average monthly temperature in degrees Celsius for Portland, Oregon.
+        type: simple
+        agg: average
+        expr: portland
+      - name: average_rapid_city_temperature
+        label: Average Rapid City Temperature
+        description: Average monthly temperature in degrees Celsius for Rapid City, South Dakota.
+        type: simple
+        agg: average
+        expr: rapid_city
+      - name: average_reno_temperature
+        label: Average Reno Temperature
+        description: Average monthly temperature in degrees Celsius for Reno, Nevada.
+        type: simple
+        agg: average
+        expr: reno
+      - name: average_richmond_temperature
+        label: Average Richmond Temperature
+        description: Average monthly temperature in degrees Celsius for Richmond, Virginia.
+        type: simple
+        agg: average
+        expr: richmond
+      - name: average_sacramento_temperature
+        label: Average Sacramento Temperature
+        description: Average monthly temperature in degrees Celsius for Sacramento, California.
+        type: simple
+        agg: average
+        expr: sacramento
+      - name: average_salt_lake_city_temperature
+        label: Average Salt Lake City Temperature
+        description: Average monthly temperature in degrees Celsius for Salt Lake City, Utah.
+        type: simple
+        agg: average
+        expr: salt_lake_city
+      - name: average_san_antonio_temperature
+        label: Average San Antonio Temperature
+        description: Average monthly temperature in degrees Celsius for San Antonio, Texas.
+        type: simple
+        agg: average
+        expr: san_antonio
+      - name: average_san_francisco_temperature
+        label: Average San Francisco Temperature
+        description: Average monthly temperature in degrees Celsius for San Francisco, California.
+        type: simple
+        agg: average
+        expr: san_francisco
+      - name: average_seattle_temperature
+        label: Average Seattle Temperature
+        description: Average monthly temperature in degrees Celsius for Seattle, Washington.
+        type: simple
+        agg: average
+        expr: seattle
+      - name: average_tampa_temperature
+        label: Average Tampa Temperature
+        description: Average monthly temperature in degrees Celsius for Tampa, Florida.
+        type: simple
+        agg: average
+        expr: tampa
+    columns:
+      - name: time
+        description: Calendar month represented by the observations, stored as the first day of the month and serving as the model's natural key.
+        granularity: month
+        dimension:
+          type: time
+        data_tests:
+          - not_null
+          - unique
+      - name: albuquerque
+        description: Monthly temperature in degrees Celsius for Albuquerque, New Mexico.
+      - name: anchorage
+        description: Monthly temperature in degrees Celsius for Anchorage, Alaska.
+      - name: atlanta
+        description: Monthly temperature in degrees Celsius for Atlanta, Georgia.
+      - name: boise
+        description: Monthly temperature in degrees Celsius for Boise, Idaho.
+      - name: boston
+        description: Monthly temperature in degrees Celsius for Boston, Massachusetts.
+      - name: buffalo
+        description: Monthly temperature in degrees Celsius for Buffalo, New York.
+      - name: charlotte
+        description: Monthly temperature in degrees Celsius for Charlotte, North Carolina.
+      - name: chicago
+        description: Monthly temperature in degrees Celsius for Chicago, Illinois.
+      - name: dallas
+        description: Monthly temperature in degrees Celsius for Dallas, Texas.
+      - name: denver
+        description: Monthly temperature in degrees Celsius for Denver, Colorado.
+      - name: detroit
+        description: Monthly temperature in degrees Celsius for Detroit, Michigan.
+      - name: helena
+        description: Monthly temperature in degrees Celsius for Helena, Montana.
+      - name: honolulu
+        description: Monthly temperature in degrees Celsius for Honolulu, Hawaii.
+      - name: indianapolis
+        description: Monthly temperature in degrees Celsius for Indianapolis, Indiana.
+      - name: jacksonville
+        description: Monthly temperature in degrees Celsius for Jacksonville, Florida.
+      - name: kansas_city
+        description: Monthly temperature in degrees Celsius for Kansas City, Missouri.
+      - name: las_vegas
+        description: Monthly temperature in degrees Celsius for Las Vegas, Nevada.
+      - name: los_angeles
+        description: Monthly temperature in degrees Celsius for Los Angeles, California.
+      - name: memphis
+        description: Monthly temperature in degrees Celsius for Memphis, Tennessee.
+      - name: miami
+        description: Monthly temperature in degrees Celsius for Miami, Florida.
+      - name: minneapolis
+        description: Monthly temperature in degrees Celsius for Minneapolis, Minnesota.
+      - name: new_orleans
+        description: Monthly temperature in degrees Celsius for New Orleans, Louisiana.
+      - name: new_york
+        description: Monthly temperature in degrees Celsius for New York City, New York.
+      - name: oklahoma_city
+        description: Monthly temperature in degrees Celsius for Oklahoma City, Oklahoma.
+      - name: phoenix
+        description: Monthly temperature in degrees Celsius for Phoenix, Arizona.
+      - name: portland
+        description: Monthly temperature in degrees Celsius for Portland, Oregon.
+      - name: rapid_city
+        description: Monthly temperature in degrees Celsius for Rapid City, South Dakota.
+      - name: reno
+        description: Monthly temperature in degrees Celsius for Reno, Nevada.
+      - name: richmond
+        description: Monthly temperature in degrees Celsius for Richmond, Virginia.
+      - name: sacramento
+        description: Monthly temperature in degrees Celsius for Sacramento, California.
+      - name: salt_lake_city
+        description: Monthly temperature in degrees Celsius for Salt Lake City, Utah.
+      - name: san_antonio
+        description: Monthly temperature in degrees Celsius for San Antonio, Texas.
+      - name: san_francisco
+        description: Monthly temperature in degrees Celsius for San Francisco, California.
+      - name: seattle
+        description: Monthly temperature in degrees Celsius for Seattle, Washington.
+      - name: tampa
+        description: Monthly temperature in degrees Celsius for Tampa, Florida.

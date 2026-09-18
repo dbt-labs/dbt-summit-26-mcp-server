@@ -1,0 +1,1 @@
+select * from {{ ref('US_CITY_TEMPERATURES') }}

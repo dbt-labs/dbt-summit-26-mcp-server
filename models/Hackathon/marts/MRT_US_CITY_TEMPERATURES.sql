@@ -1,0 +1,1 @@
+select * from {{ ref('STG_US_CITY_TEMPERATURES') }}
