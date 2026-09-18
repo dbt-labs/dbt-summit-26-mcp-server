@@ -505,3 +505,71 @@ models:
         description: Active membership flag.
         dimension:
           type: categorical
+
+  - name: fct_celtics
+    description: Historical Boston Celtics performance at one row per season, including regular-season results, playoff outcomes, coaches, and leading win-share players.
+    semantic_model:
+      enabled: true
+      name: celtics
+    metrics:
+      - name: wins
+        type: simple
+        agg: sum 
+    columns:
+      - name: Season
+        description: Season label spanning the starting and ending calendar years.
+        data_tests:
+          - not_null
+          - unique
+        entity:
+          type: primary
+      - name: League
+        description: League in which the team competed during the season.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['BAA', 'NBA']
+        dimension: 
+          type: categorical 
+      - name: Team
+        description: Team name, with an asterisk indicating a playoff appearance in the source data.
+        data_tests:
+          - not_null
+      - name: Win
+        description: Number of regular-season wins.
+        data_tests:
+          - not_null
+
+      - name: Loss
+        description: Number of regular-season losses.
+        data_tests:
+          - not_null
+      - name: Win_Loss_Pct
+        description: Regular-season winning percentage.
+        data_tests:
+          - not_null
+      - name: Finish
+        description: Regular-season divisional or conference finish.
+      - name: SRS
+        description: Simple Rating System score, combining average point differential with strength of schedule.
+      - name: Pace
+        description: Estimated possessions per 48 minutes.
+      - name: Rel_Pace
+        description: Team pace relative to the league average.
+      - name: O_Rtg
+        description: Estimated points scored per 100 possessions.
+      - name: Rel_O_Rtg
+        description: Offensive rating relative to the league average.
+      - name: D_Rtg
+        description: Estimated points allowed per 100 possessions.
+      - name: Rel_D_Rtg
+        description: Defensive rating relative to the league average.
+      - name: Playoffs
+        description: Furthest playoff round reached; blank when the team missed the playoffs.
+      - name: Coaches
+        description: Head coach or coaches and their regular-season records.
+      - name: Top_WS
+        description: Team leader in win shares, with the player's win-share total in parentheses.
+      
+        
