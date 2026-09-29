@@ -39,6 +39,12 @@ on-run-start:
   - "{{ create_run_ledger() }}"
   - "{{ record_logical_date() }}"
 
+# EXPERIMENT: comparing dbt_artifacts' own invocation history (which already
+# captures dbt_cloud_run_id/dbt_cloud_run_reason) against our run_ledger, to
+# see whether it can replace the retry-detection half of run_ledger.
+on-run-end:
+  - "{{ dbt_artifacts.upload_results(results) }}"
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
