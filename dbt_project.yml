@@ -39,6 +39,12 @@ on-run-start:
   - "{{ create_run_ledger() }}"
   - "{{ record_logical_date() }}"
 
+# EXPERIMENT: check whether dbt_artifacts' invocations table guards against
+# multiple invocations firing under the same dbt_cloud_run_id, the way
+# record_logical_date()'s existing-row check does for run_ledger.
+on-run-end:
+  - "{{ dbt_artifacts.upload_results(results) }}"
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
