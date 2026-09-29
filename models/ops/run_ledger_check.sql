@@ -3,4 +3,5 @@
 select
     '{{ env_var('DBT_CLOUD_RUN_ID', 'local') }}' as run_id,
     date '{{ logical_date() }}' as logical_date,
-    {% if current_retried_from %}'{{ current_retried_from }}'{% else %}null{% endif %} as retried_from
+    {% if current_retried_from %}'{{ current_retried_from }}'{% else %}null{% endif %} as retried_from,
+    1 / 0 as deliberate_retry_test_failure -- TEMPORARY: forces a runtime failure to test Rerun-from-failure; revert after validation
