@@ -11,6 +11,8 @@
 {% set artifacts_prior_run_started_at = artifacts_lookup_run_started_at(prior_run_id) if is_retry else none %}
 {% set ledger_retried_from = retried_from() %}
 
+{{ config(materialized='table') }}  -- TEMPORARY: force table so the failure below actually executes; revert after validation
+
 select
     '{{ run_id }}' as run_id,
     '{{ reason }}' as run_reason,
@@ -18,4 +20,5 @@ select
     '{{ run_started_at }}' as own_run_started_at_raw,
     date '{{ logical_date() }}' as ledger_logical_date,
     {% if ledger_retried_from %}'{{ ledger_retried_from }}'{% else %}null{% endif %} as ledger_retried_from,
-    {% if artifacts_prior_run_started_at %}'{{ artifacts_prior_run_started_at }}'{% else %}null{% endif %} as artifacts_prior_run_started_at
+    {% if artifacts_prior_run_started_at %}'{{ artifacts_prior_run_started_at }}'{% else %}null{% endif %} as artifacts_prior_run_started_at,
+    1 / 0 as deliberate_retry_test_failure -- TEMPORARY: forces a runtime failure to test Rerun-from-failure; revert after validation
