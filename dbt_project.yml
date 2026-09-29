@@ -31,6 +31,14 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+# Records one logical_date per dbt Platform run in a run_ledger table so that
+# Rerun-from-failure retries reuse the original run's logical date instead of
+# re-deriving one from their own run_started_at.
+on-run-start:
+  - "create schema if not exists {{ target.database }}.{{ target.schema }}"
+  - "{{ create_run_ledger() }}"
+  - "{{ record_logical_date() }}"
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -50,3 +58,5 @@ models:
       +materialized: view
     marts:
       +materialized: table
+    ops:
+      +materialized: view
