@@ -1,3 +1,4 @@
+{{ config(materialized='table') }}  -- TEMPORARY: force table so the failure below actually executes; revert after validation
 {% set current_retried_from = retried_from() %}
 
 select
