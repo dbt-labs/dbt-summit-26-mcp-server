@@ -39,6 +39,11 @@ on-run-start:
   - "{{ create_run_ledger() }}"
   - "{{ record_logical_date() }}"
 
+# EXPERIMENT: full multi-hop retry-chain walk against dbt_artifacts.invocations,
+# folding a MIN(run_started_at)-per-run_id lookup into each hop.
+on-run-end:
+  - "{{ dbt_artifacts.upload_results(results) }}"
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
