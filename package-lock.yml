@@ -1,5 +1,0 @@
-packages:
-- package: brooklyn-data/dbt_artifacts
-  name: dbt_artifacts
-  version: 2.11.1
-sha1_hash: e29ad413d8d0fd43a821410fda78b51ca7ad6e4e
