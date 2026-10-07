@@ -1,0 +1,55 @@
+[sqlfluff]
+# Config for `dbt lint` (dbt v2 / Fusion's built-in, SQLFluff-compatible linter)
+# and for running SQLFluff directly if it's ever installed as a dev dependency.
+# https://docs.getdbt.com/reference/commands/lint
+templater = dbt
+dialect = snowflake
+
+max_line_length = 120
+
+# Enable every standard rule plus the dbt-specific rule set, which is off by
+# default and must be opted into explicitly.
+#   DBT01  import_ctes                   - ref()/source() must be pulled in via a top-level CTE
+#   DBT02  join_condition_or             - JOIN ... ON must not contain OR
+#   DBT03  function_wrapped_filter_column - comparisons must not wrap a bare column in a function
+#   DBT04  leading_wildcard_like         - LIKE/ILIKE patterns must not start with a wildcard
+#   DBT05  hard_coded_reference          - ref()/source() must not be a hard-coded literal
+rules = AL01,AL02,AL03,AL04,AL05,AL06,AL07,AL08,AL09,AM01,AM02,AM03,AM04,AM05,AM06,AM07,AM08,CP01,CP02,CP03,CP04,CP05,CV01,CV02,CV03,CV04,CV05,CV06,CV07,CV08,CV09,CV10,CV11,CV12,JJ01,LT01,LT02,LT03,LT04,LT05,LT06,LT07,LT08,LT09,LT10,LT11,LT12,LT13,LT14,LT15,RF01,RF02,RF03,RF04,RF05,RF06,ST01,ST02,ST03,ST04,ST05,ST06,ST07,ST08,ST09,ST10,ST11,ST12,TQ01,TQ02,TQ03,DBT01,DBT02,DBT03,DBT04,DBT05
+
+# CP02 (identifier capitalisation) is excluded: staging models intentionally
+# reference raw, unquoted-uppercase Snowflake source columns (e.g. CUSTOMER_ID)
+# while aliasing them to lower snake_case, so a single casing policy would
+# flag correct code.
+exclude_rules = CP02
+
+[sqlfluff:templater:dbt]
+project_dir = .
+profiles_dir = .
+
+[sqlfluff:indentation]
+tab_space_size = 4
+indent_unit = space
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.types]
+capitalisation_policy = lower
+
+[sqlfluff:rules:aliasing.table]
+aliasing = explicit
+
+[sqlfluff:rules:aliasing.column]
+aliasing = explicit
+
+[sqlfluff:rules:convention.terminator]
+require_final_semicolon = false
+
+[sqlfluff:rules:layout.commas]
+line_position = trailing
