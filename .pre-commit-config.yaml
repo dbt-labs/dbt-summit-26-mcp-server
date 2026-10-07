@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: dbt-lint
+        name: dbt lint
+        entry: dbt lint --warn-error
+        language: system
+        types: [sql]
+        pass_filenames: true
