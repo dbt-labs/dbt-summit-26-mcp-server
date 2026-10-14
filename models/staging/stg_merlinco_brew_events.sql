@@ -8,5 +8,7 @@ select
     try_to_number(BATCH_SIZE)::number(18, 4) as batch_size,
     try_to_number(BREW_DURATION_MINUTES)::number(18, 4) as brew_duration_minutes,
     lower(nullif(trim(QUALITY_CHECK), '')) as quality_check,
-    nullif(trim(BREWER_NAME), '') as brewer_name
+    nullif(trim(BREWER_NAME), '') as brewer_name,
+    'new_value' as new_col
 from {{ source('merlinco_apothecaries', 'RAW_BREW_EVENTS') }}
+
