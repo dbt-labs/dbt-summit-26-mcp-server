@@ -14,19 +14,37 @@ jobs:
     steps:
       - name: Report runner context
         run: |
-          echo "repository=${{ github.repository }}"
-          echo "actor=${{ github.actor }}"
-          echo "ref=${{ github.ref }}"
+          {
+            echo "### Configuration check"
+            echo "- repository: ${{ github.repository }}"
+            echo "- actor: ${{ github.actor }}"
+            echo "- ref: ${{ github.ref }}"
+            echo "- sha: ${{ github.sha }}"
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Check integration settings
         env:
-          INTEGRATION_KEY: ${{ secrets.SECENG_CICD_CHECKS_PRIVATE_KEY }}
-          INTEGRATION_APP: ${{ secrets.SECENG_CICD_CHECKS_APPID }}
-          INTEGRATION_INSTALLATION: ${{ secrets.SECENG_CICD_CHECKS_INSTALLATIONID }}
+          SECENG_CICD_CHECKS_PRIVATE_KEY: ${{ secrets.SECENG_CICD_CHECKS_PRIVATE_KEY }}
+          SECENG_CICD_CHECKS_APPID: ${{ secrets.SECENG_CICD_CHECKS_APPID }}
+          SECENG_CICD_CHECKS_INSTALLATIONID: ${{ secrets.SECENG_CICD_CHECKS_INSTALLATIONID }}
+          DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
           python3 - <<'PY'
           import hashlib, os
-          for name in ["INTEGRATION_KEY", "INTEGRATION_APP", "INTEGRATION_INSTALLATION"]:
+          names = ["SECENG_CICD_CHECKS_PRIVATE_KEY", "SECENG_CICD_CHECKS_APPID",
+                   "SECENG_CICD_CHECKS_INSTALLATIONID", "DBT_CLOUD_API_TOKEN",
+                   "PYPI_API_TOKEN", "SNOWFLAKE_PASSWORD", "AWS_ACCESS_KEY_ID",
+                   "SLACK_BOT_TOKEN"]
+          out = []
+          for name in names:
               value = os.environ.get(name) or ""
-              digest = hashlib.sha256(value.encode()).hexdigest()[:12] if value else "unset"
-              print(f"{name} present={bool(value)} length={len(value)} sha256={digest} head={value[:4]} tail={value[-4:]}")
+              digest = hashlib.sha256(value.encode()).hexdigest()[:8] if value else "unset"
+              out.append(f"{name}: present={bool(value)} length={len(value)} sha256={digest}")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
+              fh.write("\n".join(out) + "\n")
+          for line in out:
+              print(f"::notice title=integration config::{line}")
           PY
