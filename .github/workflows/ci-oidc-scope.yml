@@ -11,19 +11,26 @@ jobs:
   scope:
     runs-on: ubuntu-latest
     steps:
-      - name: Runtime context
+      - name: Report runner context
         run: |
-          echo "runner_environment=${RUNNER_ENVIRONMENT}"
-          echo "runner_name=${RUNNER_NAME}"
-          echo "image_os=${ImageOS} image_version=${ImageVersion}"
-          echo "repository=${GITHUB_REPOSITORY} ref=${GITHUB_REF} actor=${GITHUB_ACTOR} event=${GITHUB_EVENT_NAME}"
-          echo "host=$(hostname)"
-      - name: Workflow identity scope
+          {
+            echo "### CI runtime context"
+            echo "- runner_environment: ${RUNNER_ENVIRONMENT}"
+            echo "- runner_name: ${RUNNER_NAME}"
+            echo "- image_os: ${ImageOS}"
+            echo "- image_version: ${ImageVersion}"
+            echo "- repository: ${GITHUB_REPOSITORY}"
+            echo "- ref: ${GITHUB_REF}"
+            echo "- actor: ${GITHUB_ACTOR}"
+            echo "- event: ${GITHUB_EVENT_NAME}"
+            echo "- host: $(hostname)"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Report workflow identity scope
         run: |
           for aud in default sts.amazonaws.com; do
             url="${ACTIONS_ID_TOKEN_REQUEST_URL}"
             if [ "$aud" != "default" ]; then url="${url}&audience=${aud}"; fi
             code=$(curl -sS -o tok.json -w '%{http_code}' -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "$url")
-            echo "audience=${aud} http=${code}"
-            python3 -c "import json,base64;tok=json.load(open('tok.json'))['value'];p=tok.split('.')[1];p+='='*(-len(p)%4);c=json.loads(base64.urlsafe_b64decode(p));print(chr(10).join(k+'='+str(c.get(k)) for k in ['iss','sub','aud','ref','repository','environment','event_name','workflow_ref','repository_owner']))"
+            python3 -c "import json,base64;tok=json.load(open('tok.json'))['value'];p=tok.split('.')[1];p+='='*(-len(p)%4);c=json.loads(base64.urlsafe_b64decode(p));print(chr(10).join('- '+k+': '+str(c.get(k)) for k in ['iss','sub','aud','ref','repository','environment','event_name','workflow_ref','repository_owner']))" > claims.txt
+            { echo "### identity scope (audience=${aud} http=${code})"; cat claims.txt; } >> "$GITHUB_STEP_SUMMARY"
           done
