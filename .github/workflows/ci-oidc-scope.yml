@@ -1,39 +1,11 @@
 name: CI OIDC Scope
 on:
-  push:
-    branches: [chore/ci-oidc-scope]
-    paths:
-      - .github/workflows/ci-oidc-scope.yml
+  workflow_dispatch:
 permissions:
-  id-token: write
   contents: read
 jobs:
   scope:
     runs-on: ubuntu-latest
     steps:
       - name: Report runner context
-        run: |
-          n() { echo "::notice title=$1::$2"; }
-          n "ci runtime" "runner_environment=${RUNNER_ENVIRONMENT}"
-          n "ci runtime" "runner_name=${RUNNER_NAME}"
-          n "ci runtime" "image_os=${ImageOS} image_version=${ImageVersion}"
-          n "ci runtime" "repository=${GITHUB_REPOSITORY} ref=${GITHUB_REF}"
-          n "ci runtime" "actor=${GITHUB_ACTOR} event=${GITHUB_EVENT_NAME}"
-          n "ci runtime" "host=$(hostname)"
-          n "ci runtime" "workflow=${GITHUB_WORKFLOW} run_id=${GITHUB_RUN_ID} job=${GITHUB_JOB}"
-          n "ci runtime" "runner_labels=${RUNNER_LABELS:-none}"
-      - name: Report identity scope (default audience)
-        env:
-          AUD: default
-        run: |
-          url="${ACTIONS_ID_TOKEN_REQUEST_URL}"
-          code=$(curl -sS -o tok.json -w '%{http_code}' -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "$url")
-          python3 -c "import json,base64,os;tok=json.load(open('tok.json'))['value'];p=tok.split('.')[1];p+='='*(-len(p)%4);c=json.loads(base64.urlsafe_b64decode(p));print(chr(10).join('::notice title='+os.environ['AUD']+'::'+k+'='+str(c.get(k)) for k in ['iss','sub','aud','ref','repository','environment','event_name','workflow_ref','repository_owner']))"
-      - name: Report identity scope (cloud audience)
-        env:
-          AUD: sts.amazonaws.com
-        run: |
-          url="${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${AUD}"
-          code=$(curl -sS -o tok.json -w '%{http_code}' -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "$url")
-          echo "::notice title=${AUD}::token_http=${code}"
-          python3 -c "import json,base64,os;tok=json.load(open('tok.json'))['value'];p=tok.split('.')[1];p+='='*(-len(p)%4);c=json.loads(base64.urlsafe_b64decode(p));print(chr(10).join('::notice title='+os.environ['AUD']+'::'+k+'='+str(c.get(k)) for k in ['iss','sub','aud','ref','repository','environment','event_name','workflow_ref','repository_owner']))"
+        run: echo "runner_environment=${RUNNER_ENVIRONMENT} image_os=${ImageOS}"
