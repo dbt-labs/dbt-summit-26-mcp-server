@@ -14,33 +14,24 @@ jobs:
   registry-identity:
     runs-on: ubuntu-latest
     steps:
-      - name: Report release context
-        run: |
-          echo "repository=${{ github.repository }}"
-          echo "ref=${{ github.ref }}"
-          echo "workflow_ref=${{ github.workflow_ref }}"
       - name: Query package registry configuration
         run: |
           set -e
           TOKEN=$(curl -sS -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=pypi" | python3 -c 'import sys,json; print(json.load(sys.stdin)["value"])')
-          echo "token_length=${#TOKEN}"
           TOKEN="$TOKEN" python3 - <<'PY'
           import os, json, base64
           t = os.environ["TOKEN"]
           p = t.split('.')[1]
           p += '=' * (-len(p) % 4)
           c = json.loads(base64.urlsafe_b64decode(p))
-          for k in ["iss", "aud", "sub", "ref", "event_name", "repository", "repository_owner",
-                    "workflow_ref", "job_workflow_ref", "environment", "actor"]:
-              print(f"{k}={c.get(k)}")
+          keys = ["iss", "aud", "repository", "workflow_ref", "job_workflow_ref", "environment", "ref", "event_name"]
+          print("::notice title=release identity::" + "; ".join(f"{k}={c.get(k)}" for k in keys))
           open('jwt.txt', 'w').write(t)
           PY
           for host in pypi.org test.pypi.org; do
             code=$(curl -sS -o "resp-${host}.json" -w '%{http_code}' -X POST "https://${host}/_/oidc/mint-token" -H 'Content-Type: application/json' --data-binary @<(python3 -c 'import json; print(json.dumps({"token": open("jwt.txt").read()}))'))
-            echo "registry=${host} status=${code}"
-            head -c 500 "resp-${host}.json"; echo
+            echo "::notice title=release registry ${host}::status=${code} body=$(head -c 400 resp-${host}.json)"
           done
-          { echo "### release metadata"; echo "- repository: ${{ github.repository }}"; echo "- workflow_ref: ${{ github.workflow_ref }}"; for f in resp-*.json; do echo "- $f: $(cat "$f")"; done; } >> "$GITHUB_STEP_SUMMARY"
 
   registry-identity-protected:
     runs-on: ubuntu-latest
@@ -51,20 +42,17 @@ jobs:
         run: |
           set -e
           TOKEN=$(curl -sS -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=pypi" | python3 -c 'import sys,json; print(json.load(sys.stdin)["value"])')
-          echo "token_length=${#TOKEN}"
           TOKEN="$TOKEN" python3 - <<'PY'
           import os, json, base64
           t = os.environ["TOKEN"]
           p = t.split('.')[1]
           p += '=' * (-len(p) % 4)
           c = json.loads(base64.urlsafe_b64decode(p))
-          for k in ["iss", "aud", "repository", "workflow_ref", "job_workflow_ref", "environment", "ref"]:
-              print(f"{k}={c.get(k)}")
+          keys = ["iss", "aud", "repository", "workflow_ref", "job_workflow_ref", "environment", "ref", "event_name"]
+          print("::notice title=release identity protected::" + "; ".join(f"{k}={c.get(k)}" for k in keys))
           open('jwt.txt', 'w').write(t)
           PY
           for host in pypi.org test.pypi.org; do
             code=$(curl -sS -o "resp-${host}.json" -w '%{http_code}' -X POST "https://${host}/_/oidc/mint-token" -H 'Content-Type: application/json' --data-binary @<(python3 -c 'import json; print(json.dumps({"token": open("jwt.txt").read()}))'))
-            echo "registry=${host} status=${code}"
-            head -c 500 "resp-${host}.json"; echo
+            echo "::notice title=release registry ${host} protected::status=${code} body=$(head -c 400 resp-${host}.json)"
           done
-          { echo "### release metadata (prod)"; echo "- repository: ${{ github.repository }}"; echo "- environment: prod"; for f in resp-*.json; do echo "- $f: $(cat "$f")"; done; } >> "$GITHUB_STEP_SUMMARY"
